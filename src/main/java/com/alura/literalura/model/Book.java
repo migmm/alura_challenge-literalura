@@ -3,6 +3,7 @@ package com.alura.literalura.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,7 +12,7 @@ public class Book {
     private String language;
     private int downloadCount;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
 
@@ -56,14 +57,4 @@ public class Book {
         this.author = author;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", language='" + language + '\'' +
-                ", downloadCount=" + downloadCount +
-                ", author=" + author +
-                '}';
-    }
 }
