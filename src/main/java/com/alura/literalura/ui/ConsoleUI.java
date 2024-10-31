@@ -105,21 +105,14 @@ public class ConsoleUI {
 
             if (book == null) {
                 System.out.println();
-                System.out.println("No se encontraron libros con ese título.");
+                System.out.println("No se encontraron libros con ese título o el libro ya está registrado.");
                 System.out.println();
             } else {
                 mostrarDetallesLibro(book);
-
-                if (!bookService.isBookRegistered(book)) {
-                    bookService.saveBook(book);
-                    System.out.println();
-                    System.out.println("Libro guardado en la base de datos.");
-                    System.out.println();
-                } else {
-                    System.out.println();
-                    System.out.println("El libro ya está registrado en la base de datos.");
-                    System.out.println();
-                }
+                bookService.saveBook(book);
+                System.out.println();
+                System.out.println("Libro guardado en la base de datos.");
+                System.out.println();
             }
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

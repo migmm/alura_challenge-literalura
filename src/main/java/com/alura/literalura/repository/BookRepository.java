@@ -10,4 +10,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByLanguage(String language);
     boolean existsByTitleAndAuthor(String title, Author author);
     boolean existsByTitle(String title);
+    Book findByTitle(String title);
+    List<Book> findByTitleAndAuthor(String title, Author author);
 }

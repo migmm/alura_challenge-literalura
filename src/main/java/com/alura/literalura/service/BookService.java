@@ -26,15 +26,17 @@ public class BookService {
     private GutendexClient gutendexClient;
 
     public Book searchBooksByTitle(String title) {
-        if (bookRepository.existsByTitle(title)) {
-            throw new RuntimeException("El libro con el título '" + title + "' ya está registrado.");
-        }
-
         try {
             List<BookDTO> bookDTOs = gutendexClient.searchBooksByTitle(title);
             System.out.println("=== Respuesta de Gutendex ===");
             if (!bookDTOs.isEmpty()) {
                 BookDTO bookDTO = bookDTOs.get(0);
+                Book existingBook = findExistingBook(bookDTO);
+                if (existingBook != null) {
+                    System.out.println("El libro ya está registrado en la base de datos.");
+                    return null;
+                }
+
                 System.out.println("Libro encontrado: " + bookDTO.getTitle());
                 System.out.println("Autores encontrados: " + bookDTO.getAuthors().size());
                 for (AuthorDTO authorDTO : bookDTO.getAuthors()) {
@@ -51,6 +53,24 @@ public class BookService {
             e.printStackTrace();
             throw new RuntimeException("Error searching books by title", e);
         }
+    }
+
+    private Book findExistingBook(BookDTO bookDTO) {
+        if (bookDTO.getAuthors().isEmpty()) {
+            return bookRepository.findByTitle(bookDTO.getTitle());
+        }
+
+        String authorName = bookDTO.getAuthors().get(0).getName();
+        Author existingAuthor = authorRepository.findFirstByName(authorName);
+
+        if (existingAuthor != null) {
+            List<Book> existingBooks = bookRepository.findByTitleAndAuthor(bookDTO.getTitle(), existingAuthor);
+            if (!existingBooks.isEmpty()) {
+                return existingBooks.get(0);
+            }
+        }
+
+        return null;
     }
 
     @Transactional
@@ -82,17 +102,14 @@ public class BookService {
                 author.setName(authorDTO.getName().substring(0, Math.min(authorDTO.getName().length(), 254)));
                 author.setBirthYear(authorDTO.getBirthYear());
                 author.setDeathYear(authorDTO.getDeathYear());
-                // Guardar el autor primero para obtener su ID
                 author = authorRepository.save(author);
             } else {
                 System.out.println("  Actualizando autor existente");
                 author.setBirthYear(authorDTO.getBirthYear());
                 author.setDeathYear(authorDTO.getDeathYear());
-                // Actualizar el autor
                 author = authorRepository.save(author);
             }
 
-            // Establecer la relación bidireccional
             book.setAuthor(author);
             if (author.getBooks() == null) {
                 author.setBooks(new ArrayList<>());
@@ -112,7 +129,6 @@ public class BookService {
             unknownAuthor.getBooks().add(book);
         }
 
-        // Guardar el libro después de establecer todas las relaciones
         return bookRepository.save(book);
     }
 
@@ -125,25 +141,19 @@ public class BookService {
             System.out.println("  Año nacimiento: " + book.getAuthor().getBirthYear());
             System.out.println("  Año muerte: " + book.getAuthor().getDeathYear());
 
-            // Asegurarse de que la lista de libros del autor no sea null
             if (book.getAuthor().getBooks() == null) {
                 book.getAuthor().setBooks(new ArrayList<>());
             }
 
-            // Actualizar la relación bidireccional
             if (!book.getAuthor().getBooks().contains(book)) {
                 book.getAuthor().getBooks().add(book);
             }
 
-            // Cortar el nombre del autor si es necesario
             book.getAuthor().setName(book.getAuthor().getName().substring(0, Math.min(book.getAuthor().getName().length(), 254)));
-
-            // Guardar primero el autor
             Author savedAuthor = authorRepository.save(book.getAuthor());
             book.setAuthor(savedAuthor);
         }
 
-        // Guardar el libro
         bookRepository.save(book);
     }
 
