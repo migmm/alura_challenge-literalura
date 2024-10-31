@@ -1,1 +1,13 @@
-spring.application.name=literalura
+# Base de datos
+spring.datasource.url=jdbc:postgresql://localhost:5432/literalura
+spring.datasource.username=postgres
+spring.datasource.password=1234
+spring.jpa.hibernate.ddl-auto=update
+
+# Desactivar la impresión de consultas SQL
+spring.jpa.show-sql=false
+
+# Configuración de logging para Hibernate
+logging.level.org.hibernate=ERROR
+logging.level.org.hibernate.SQL=ERROR
+logging.level.org.hibernate.type.descriptor.sql=ERROR
