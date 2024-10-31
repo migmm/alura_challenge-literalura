@@ -1,13 +1,12 @@
 package com.alura.literalura.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class BookDTO {
     private String title;
-    private String language;
-    private int downloadCount;
-    private AuthorDTO author;
+    private List<AuthorDTO> authors;
+    private List<String> languages;
+    private int download_count;
 
     // Getters and Setters
     public String getTitle() {
@@ -18,37 +17,28 @@ public class BookDTO {
         this.title = title;
     }
 
-    public String getLanguage() {
-        return language;
+    public List<String> getLanguages() {
+        return languages;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
     }
 
-    public int getDownloadCount() {
-        return downloadCount;
+    public int getDownload_count() {
+        return download_count;
     }
 
-    public void setDownloadCount(int downloadCount) {
-        this.downloadCount = downloadCount;
+    public void setDownload_count(int download_count) {
+        this.download_count = download_count;
     }
 
-    public AuthorDTO getAuthor() {
-        return author;
+    public List<AuthorDTO> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
+    public void setAuthors(List<AuthorDTO> authors) {
+        this.authors = authors;
     }
 
-    @Override
-    public String toString() {
-        return "BookDTO{" +
-                "title='" + title + '\'' +
-                ", language='" + language + '\'' +
-                ", downloadCount=" + downloadCount +
-                ", author=" + author +
-                '}';
-    }
 }

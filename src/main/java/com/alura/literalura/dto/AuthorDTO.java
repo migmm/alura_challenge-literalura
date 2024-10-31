@@ -1,8 +1,14 @@
 package com.alura.literalura.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuthorDTO {
     private String name;
+
+    @JsonProperty("birth_year")
     private Integer birthYear;
+
+    @JsonProperty("death_year")
     private Integer deathYear;
 
     // Getters and Setters
@@ -28,14 +34,5 @@ public class AuthorDTO {
 
     public void setDeathYear(Integer deathYear) {
         this.deathYear = deathYear;
-    }
-
-    @Override
-    public String toString() {
-        return "AuthorDTO{" +
-                "name='" + name + '\'' +
-                ", birthYear=" + birthYear +
-                ", deathYear=" + deathYear +
-                '}';
     }
 }
