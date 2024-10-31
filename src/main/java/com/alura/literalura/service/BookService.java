@@ -28,7 +28,6 @@ public class BookService {
     public Book searchBooksByTitle(String title) {
         try {
             List<BookDTO> bookDTOs = gutendexClient.searchBooksByTitle(title);
-            System.out.println("=== Respuesta de Gutendex ===");
             if (!bookDTOs.isEmpty()) {
                 BookDTO bookDTO = bookDTOs.get(0);
                 Book existingBook = findExistingBook(bookDTO);
@@ -75,7 +74,6 @@ public class BookService {
 
     @Transactional
     private Book convertToBook(BookDTO bookDTO) {
-        System.out.println("\n=== Iniciando conversión de BookDTO a Book ===");
         Book book = new Book();
         book.setTitle(bookDTO.getTitle().substring(0, Math.min(bookDTO.getTitle().length(), 254)));
 
@@ -134,7 +132,7 @@ public class BookService {
 
     @Transactional
     public void saveBook(Book book) {
-        System.out.println("\n=== Guardando libro ===");
+        System.out.println("\n--- Guardando libro ---");
         if (book.getAuthor() != null) {
             System.out.println("Autor del libro a guardar:");
             System.out.println("  Nombre: " + book.getAuthor().getName());
