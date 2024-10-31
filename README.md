@@ -4,7 +4,7 @@
     <img src="https://github.com/migmm/alura_challenge-desafio_1-logica/blob/main/assets/aluraoracle.png" alt="Logo"/>
 </p>
 
-Literalira es aplicación de consola Java Spring Boot que se integra con la API de Gutendex para buscar, almacenar y gestionar información de libros y autores.
+Literalura es aplicación de consola Java Spring Boot que se integra con la API de Gutendex para buscar, almacenar y gestionar información de libros y autores.
 
 ## Características
 
