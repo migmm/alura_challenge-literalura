@@ -120,11 +120,19 @@ public class ConsoleUI {
     }
 
     private void listarLibrosRegistrados() {
+        System.out.println();
+        System.out.println("--- Libro guardados en la base de datos ---");
+        System.out.println();
+
         List<Book> books = bookService.getAllBooks();
         books.forEach(this::mostrarDetallesLibro);
     }
 
     private void listarAutoresRegistrados() {
+        System.out.println();
+        System.out.println("--- Autores guardados en la base de datos ---");
+        System.out.println();
+
         List<Author> authors = authorService.getAllAuthors();
         authors.forEach(this::mostrarDetallesAutor);
     }
@@ -140,6 +148,10 @@ public class ConsoleUI {
             System.out.println();
             return;
         }
+
+        System.out.println();
+        System.out.println("--- Autores vivos en el año " + yearInput + " ---");
+        System.out.println();
 
         int year = Integer.parseInt(yearInput);
         List<Author> authors = authorService.getAuthorsAliveInYear(year);
