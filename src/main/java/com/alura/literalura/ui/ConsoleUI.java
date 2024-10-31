@@ -47,7 +47,7 @@ public class ConsoleUI {
         System.out.println("0. Salir.");
     }
 
-    public void procesaOpciones() {
+    private void procesaOpciones() {
         int opcion = -1;
 
         while (opcion != 0) {
@@ -158,7 +158,7 @@ public class ConsoleUI {
         System.out.println();
         System.out.print("Seleccione un idioma (ingrese el número correspondiente): ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline left-over
+        scanner.nextLine();
 
         if (choice < 1 || choice > languages.size()) {
             System.out.println();
