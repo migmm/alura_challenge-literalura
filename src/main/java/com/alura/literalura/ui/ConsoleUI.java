@@ -146,7 +146,6 @@ public class ConsoleUI {
         authors.forEach(author -> System.out.println(author.getName()));
     }
 
-    // En ConsoleUI.java
     private void listarLibrosPorIdioma() {
         List<String> languages = bookService.getAvailableLanguages();
 
@@ -165,28 +164,34 @@ public class ConsoleUI {
 
         System.out.println();
         System.out.print("Seleccione un idioma (ingrese el número correspondiente): ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        if (scanner.hasNextInt()) {
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-        if (choice < 1 || choice > languages.size()) {
-            System.out.println();
-            System.out.println("Selección no válida.");
-            System.out.println();
-            return;
-        }
+            if (choice < 1 || choice > languages.size()) {
+                System.out.println();
+                System.out.println("Selección no válida.");
+                System.out.println();
+                return;
+            }
 
-        String selectedLanguage = languages.get(choice - 1);
-        List<Book> books = bookService.getBooksByLanguage(selectedLanguage);
+            String selectedLanguage = languages.get(choice - 1);
+            List<Book> books = bookService.getBooksByLanguage(selectedLanguage);
 
-        if (books.isEmpty()) {
-            System.out.println();
-            System.out.println("No hay libros registrados en el idioma seleccionado.");
-            System.out.println();
+            if (books.isEmpty()) {
+                System.out.println();
+                System.out.println("No hay libros registrados en el idioma seleccionado.");
+                System.out.println();
+            } else {
+                System.out.println();
+                System.out.println("--- Libros en el idioma " + selectedLanguage + " ---");
+                System.out.println();
+                books.forEach(this::mostrarDetallesLibro);
+            }
         } else {
             System.out.println();
-            System.out.println("--- Libros en el idioma " + selectedLanguage + " ---");
-            System.out.println();
-            books.forEach(this::mostrarDetallesLibro);
+            System.out.println("Error: Ingrese un número válido.");
+            scanner.nextLine(); // Consume invalid input
         }
     }
 
