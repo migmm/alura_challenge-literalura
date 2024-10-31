@@ -131,9 +131,17 @@ public class ConsoleUI {
 
     private void listarAutoresVivosEnAnio() {
         System.out.println();
-        System.out.print("Ingrese el año: ");
-        int year = scanner.nextInt();
-        scanner.nextLine();
+        System.out.print("Ingrese el año (4 dígitos): ");
+        String yearInput = scanner.nextLine();
+
+        if (yearInput.length() != 4 || !yearInput.matches("\\d{4}")) {
+            System.out.println();
+            System.out.println("Error: Ingrese un año válido de 4 dígitos.");
+            System.out.println();
+            return;
+        }
+
+        int year = Integer.parseInt(yearInput);
         List<Author> authors = authorService.getAuthorsAliveInYear(year);
         authors.forEach(author -> System.out.println(author.getName()));
     }
